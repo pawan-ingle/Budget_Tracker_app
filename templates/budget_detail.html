@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>{{ budget.name }} — ₹{{ budget.initial_amount }}</h2>
+  <p>Total spent: ₹{{ total_spent }}</p>
+  <p>Remaining: ₹{{ remaining }}</p>
+
+  <h3>Add expense</h3>
+  <form method="post">
+    {% csrf_token %}
+    <input type="text" name="description" placeholder="Description" required>
+    <input type="number" name="amount" step="0.01" placeholder="Amount" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <h3>Expenses</h3>
+  <ul>
+    {% for e in expenses %}
+      <li>{{ e.description }} — ₹{{ e.amount }} <small>({{ e.created_at }})</small></li>
+    {% empty %}
+      <li>No expenses yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
